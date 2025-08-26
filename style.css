@@ -1,0 +1,148 @@
+:root{
+  /* Paleta e tokens de design: facilitam temas e consistência */
+  --bg:#0f172a;        /* fundo base (azul marinho escuro) */
+  --panel:#111827;     /* painéis/cartões escuros */
+  --ink:#e5e7eb;       /* cor principal do texto (alto contraste no fundo escuro) */
+  --muted:#94a3b8;     /* texto secundário (menor contraste) */
+  --brand:#38bdf8;     /* cor de destaque (azul) */
+  --brand-2:#a78bfa;   /* cor de destaque complementar (roxo) */
+  --line:rgba(255,255,255,.10); /* linhas e bordas discretas (10% branco) */
+}
+
+*{ box-sizing:border-box } /* inclui bordas/preenchimentos no cálculo de largura/altura */
+
+body{
+  margin:0;
+  /* Stack de fontes seguras e modernas com fallback */
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color:var(--ink);
+  /* Fundo com radial-gradients para dar profundidade sutil */
+  background:
+    radial-gradient(1400px 800px at 10% -10%, #1f2937 0%, #0b1022 55%, #050712 100%);
+  padding:24px;        /* respiro nas bordas da página */
+  line-height:1.6;     /* leitura confortável em textos */
+}
+
+/* Títulos com hierarquia visual e espaçamento consistente */
+h1,h2,h3{ line-height:1.25; margin:0 0 10px }
+h1{ font-size:clamp(28px,3.6vw,40px); color:#fff }          /* responsivo com clamp */
+h2{ font-size:clamp(20px,2.6vw,26px); color:var(--brand) }   /* usa a cor de marca */
+h3{ font-size:clamp(16px,2vw,20px); color:#c7d2fe }          /* variação suave (roxo claro) */
+p{ margin:8px 0 12px }                                       /* ritmo vertical de parágrafos */
+a{ color:#7dd3fc; text-decoration:none }                     /* link em azul claro */
+a:hover{ text-decoration:underline }                         /* feedback de interação básico */
+
+/* Blocos/seções com cartão escuro e leve elevação */
+.bloco{
+  background: linear-gradient(180deg, #0c1224 0%, #0b1022 60%, #0b0f20 100%);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:18px;
+  margin:14px 0;
+  box-shadow: 0 10px 28px rgba(0,0,0,.35); /* profundidade e separação do fundo */
+}
+
+/* Layout em 2 colunas com grid responsivo */
+.col2{ display:grid; gap:16px; grid-template-columns: repeat(2, minmax(0,1fr)); }
+/* Em telas menores, cai para 1 coluna para legibilidade */
+@media (max-width:780px){ .col2{ grid-template-columns:1fr } }
+
+/* Tabela com cabeçalho/rodapé destacados por transparências de marca */
+table{
+  width:100%;
+  border-collapse:collapse;         /* remove espaçamento interno de células */
+  border:1px solid var(--line);
+  border-radius:12px;               /* cantos arredondados no container */
+  overflow:hidden;                  /* mantém arredondamento nas bordas internas */
+}
+thead{ background: rgba(56,189,248,.15) } /* azul translúcido (brand) para header */
+tfoot{ background: rgba(167,139,250,.10) }/* roxo translúcido (brand-2) para footer */
+th,td{
+  padding:10px;
+  border-bottom:1px solid var(--line);
+  text-align:left;
+}
+th{ color:#93c5fd }                 /* cabeçalhos com mais destaque (legibilidade) */
+
+/* Cartões dos integrantes (avatar ao lado do texto) */
+.member{
+  display:grid;                     /* grid para duas colunas: imagem + conteúdo */
+  grid-template-columns: 120px 1fr; /* primeira coluna fixa para a foto */
+  gap:12px;
+  padding:14px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  /* leve gradiente com as cores de marca para um brilho sutil */
+  background: linear-gradient(180deg, rgba(56,189,248,.08), rgba(167,139,250,.06));
+}
+.member img{
+  width:120px; height:120px;        /* avatar quadrado */
+  border-radius:14px;               /* cantos arredondados combinando com o cartão */
+  object-fit:cover;                 /* mantém proporção cortando excesso */
+  border:1px solid var(--line);
+  background:#0b1224;               /* fallback caso a imagem não carregue */
+}
+.member h3{ margin:0 0 6px }        /* título colado na imagem, com respiro mínimo */
+.member p{ margin:0; color:var(--muted) } /* descrição com cor secundária */
+
+/* Formulário com inputs coerentes ao tema escuro */
+label{ display:block; margin:8px 0 4px }
+input,select,textarea,button{
+  width:100%;
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid var(--line);
+  background:#0b1224;               /* campo escuro consistente com o tema */
+  color:var(--ink);
+  outline:none;
+  font-size:15px;
+}
+button{
+  margin-top:8px;
+  /* botão com gradiente azul e leve ênfase de elevação */
+  background: linear-gradient(180deg, #60a5fa, #3b82f6);
+  border:none; cursor:pointer; font-weight:600;
+  box-shadow: 0 10px 18px rgba(59,130,246,.35);
+}
+button:hover{ filter:brightness(1.05) } /* micro realce no hover */
+
+/* Cabeçalho visual: separador pontilhado discreto abaixo do título da página */
+.page-title{
+  margin-bottom:16px;
+  padding-bottom:8px;
+  border-bottom:1px dashed var(--line);
+}
+
+/* Card de foto */
+/* grid não força alturas iguais e permite alinhar a célula */
+.col2 { align-items: start; }
+
+/* a âncora vira só um "slot" de imagem, sem aparência de card */
+.foto-card{
+  display: block;
+  justify-self: end;       /* encosta à direita da coluna */
+  padding: 0;
+  border: 0;
+  background: transparent; /* sem fundo extra */
+  line-height: 0;          /* remove espaço fantasma sob a img */
+}
+
+/* a imagem é quem tem o visual arredondado */
+.foto-card img{
+  display: block;
+  width: clamp(180px, 28vw, 320px); /* controle de tamanho (min→fluido→máx) */
+  height: auto;
+  border-radius: 14px;     /* bordas arredondadas */
+  object-fit: cover;       /* preenche sem distorcer (não corta altura) */
+}
+
+/* Mobile: centraliza e deixa ocupar a largura */
+@media (max-width: 768px){
+  .foto-card{ justify-self: center; margin-top: 16px; }
+  .foto-card img{ width: min(100%, 360px); }
+}
+
+
+
+
+
